@@ -1,0 +1,8 @@
+-r base.in
+
+pytest
+pytest-django
+pytest-cov
+flake8
+coverage
+ipdb

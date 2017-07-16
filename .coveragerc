@@ -1,0 +1,5 @@
+[run]
+source = django-bank-reader
+omit =
+    */migrations/*
+    */tests/*

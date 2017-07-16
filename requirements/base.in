@@ -1,0 +1,6 @@
+django
+django-getenv
+dj-database-url
+psycopg2
+
+uwsgi
