@@ -8,4 +8,7 @@ To launch the project run `docker-compose up` in root directory.
 
 # Testing
 
-To launch project tests just launch `tox`.
+To launch tests a postgres DB is needed so first bring it up.
+
+    docker-compose -f containers/services.yml up
+    tox

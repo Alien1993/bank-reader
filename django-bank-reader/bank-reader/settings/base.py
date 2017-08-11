@@ -16,6 +16,8 @@ ALLOWED_HOSTS = env('DJANGO_ALLOWED_HOSTS', '').replace(' ', '').split(',')
 # Application definition
 
 INSTALLED_APPS = [
+    'scraper',
+
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
