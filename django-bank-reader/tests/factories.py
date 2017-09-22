@@ -1,6 +1,6 @@
 import datetime
-from decimal import Decimal
 
+from moneyed import Money
 import factory
 
 from scraper import models
@@ -15,5 +15,4 @@ class MovementFactory(factory.django.DjangoModelFactory):
     description = "Lunch"
     category = "Food"
     sub_category = "Food"
-    amount = Decimal(15)
-    currency = models.Movement.EUR
+    amount = Money(15, 'EUR')

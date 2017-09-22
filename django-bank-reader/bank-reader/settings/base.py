@@ -56,6 +56,8 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'bank-reader.wsgi.application'
 
+# Limits Django Money currencies
+CURRENCIES = ('EUR',)
 
 # Database
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases

@@ -1,4 +1,5 @@
 django
+django-money
 django-getenv
 dj-database-url
 psycopg2
