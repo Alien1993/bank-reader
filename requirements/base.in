@@ -3,5 +3,6 @@ django-money
 django-getenv
 dj-database-url
 psycopg2
+scrapy
 
 uwsgi
