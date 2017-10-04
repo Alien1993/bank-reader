@@ -1,9 +1,14 @@
 from datetime import datetime, date, timedelta
+import logging
 
 import scrapy
 
+from .exceptions import CurrencyException
 from .models import Movement
 from .utils import get_username, get_password, convert_amount
+
+
+logger = logging.getLogger(__name__)
 
 
 class FinecoSpider(scrapy.Spider):
@@ -33,8 +38,9 @@ class FinecoSpider(scrapy.Spider):
     def after_login(self, response):
         """ Makes first requests to get movements after sucessful login """
         if ('error' in response.url):
-            # TODO: Add logging
-            raise scrapy.exceptions.CloseSpider(reason='Failed login')
+            msg = "Failed login"
+            logger.warn(msg)
+            raise scrapy.exceptions.CloseSpider(reason=msg)
 
         last_movement_date = Movement.get_last_date()
         # If no Movement has ever been parsed set start date to June 2015 else
@@ -87,7 +93,13 @@ class FinecoSpider(scrapy.Spider):
                     category = cell.xpath('text()').extract_first().strip()
                     sub_category = cell.xpath('.//i/text()').extract_first.strip()
                 elif i == 5:
-                    amount = convert_amount(cell.xpath('.//b/text()').extract_first().strip())
+                    # If currency is unknown skips current movement
+                    try:
+                        amount = convert_amount(cell.xpath('.//b/text()').extract_first().strip())
+                    except CurrencyException as exc:
+                        msg = 'Skipping movement {} of {}. {}'.format(description, movement_date, exc)
+                        logger.exception(msg)
+                        break
 
             # Creates new Movement if it doesn't already exists
             Movement.objects.get_or_create(

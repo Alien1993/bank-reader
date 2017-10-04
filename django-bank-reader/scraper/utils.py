@@ -1,15 +1,19 @@
 import os
+import logging
 
 from moneyed import Money
 
 from .exceptions import CurrencyException
+
+logger = logging.getLogger(__name__)
 
 
 def _get_env_var(key):
     try:
         return os.environ[key]
     except KeyError:
-        raise KeyError("Missing env var {}".format(key))
+        logger.exception("Missing env var {}".format(key))
+    return ""
 
 
 def get_username():
@@ -32,7 +36,6 @@ def convert_amount(amount):
     try:
         currency = currencies[symbol]
     except KeyError:
-        # TODO: Add logging
         raise CurrencyException('Unknown currency: %s' % symbol)
 
     return Money(amount=money, currency=currency)

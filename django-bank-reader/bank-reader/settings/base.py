@@ -109,3 +109,31 @@ STATIC_HOST = env('DJANGO_STATIC_HOST', '')
 
 STATIC_URL = STATIC_HOST + '/static/'
 STATIC_ROOT = os.path.join(ASSETS_ROOT, 'static')
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'standard': {
+            'format': "[%(asctime)s] %(levelname)s [%(name)s:%(lineno)s] %(message)s",
+            'datefmt': "%d/%b/%Y %H:%M:%S"
+        },
+    },
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+            'formatter': 'standard'
+        },
+        'logfile': {
+            'class': 'logging.FileHandler',
+            'filename': BASE_DIR + '/logger.log',
+            'formatter': 'standard'
+        }
+    },
+    'loggers': {
+        'default': {
+            'handlers': ['console', 'logfile'],
+            'propagate': True
+        }
+    }
+}
