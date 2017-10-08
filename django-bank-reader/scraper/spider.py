@@ -121,7 +121,7 @@ class FinecoSpider(scrapy.Spider):
         request = scrapy.FormRequest.from_response(
             response,
             formdata={
-                'meseanno': next_month,
+                'meseanno': next_month.strftime('%m%Y'),
                 'dopoAggiornamento': 'false',
                 'idBrand': ''
             },
