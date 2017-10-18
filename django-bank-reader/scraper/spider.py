@@ -1,7 +1,9 @@
 from datetime import datetime, date, timedelta
+import os
 import logging
 
 import scrapy
+import scrapy_splash
 
 from .exceptions import CurrencyException
 from .models import Movement
@@ -15,24 +17,29 @@ class FinecoSpider(scrapy.Spider):
     """ Spider crawling Fineco site to parse list of movements """
     BASE_URL = 'https://finecobank.com/'
     LOGIN_URL = BASE_URL + 'it/public/'
+    MONEYMAP_URL = BASE_URL + 'conto-e-carte/bilancio-familiare'
     LOSSES_URL = BASE_URL + 'conto-e-carte/bilancio-familiare/movimenti-tutti-uscite/'
     REVENUES_URL = BASE_URL + 'conto-e-carte/bilancio-familiare/movimenti-tutti-entrate/'
 
     name = "FinecoSpider"
     start_urls = [LOGIN_URL]
-    custom_settings = {
-        'USER_AGENT': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) '
-        'AppleWebKit/537.36 (KHTML, like Gecko) '
-        'Chrome/59.0.3071.115 Safari/537.36',
-        'DOWNLOAD_DELAY': 2,
-        'CONCURRENT_REQUESTS': 2,
-    }
+
+    def __init__(self, name=None, **kwargs):
+        super(FinecoSpider, self).__init__(name, **kwargs)
+        # Reads Splash lua scripts
+        file_dir = os.path.dirname(os.path.realpath(__file__))
+        with open(file_dir + '/login.lua', 'r') as login_lua:
+            self.login_lua = login_lua.read()
+        with open(file_dir + '/movements.lua', 'r') as movements_lua:
+            self.movements_lua = movements_lua.read()
 
     def parse(self, response):
-        return scrapy.FormRequest.from_response(
+        return scrapy_splash.SplashFormRequest.from_response(
             response,
             formdata={'LOGIN': get_username(), 'PASSWD': get_password()},
-            callback=self.after_login
+            callback=self.after_login,
+            endpoint='execute',
+            args={'lua_source': self.login_lua}
         )
 
     def after_login(self, response):
@@ -51,33 +58,44 @@ class FinecoSpider(scrapy.Spider):
             last_movement_date = last_movement_date - timedelta(days=3)
 
         # Starts parsing of losses
-        losses_request = scrapy.FormRequest(
+        losses_request = scrapy_splash.SplashRequest(
             url=self.LOSSES_URL,
-            formdata={
+            callback=self.parse_movements,
+            endpoint='execute',
+            cache_args=['lua_source'],
+            dont_filter=True,
+            args={
+                'lua_source': self.movements_lua,
+                'moneymap_url': self.MONEYMAP_URL,
                 'meseanno': last_movement_date.strftime('%m%Y'),
                 'dopoAggiornamento': 'false',
                 'idBrand': ''
             },
-            callback=self.parse_movements
+            meta={'date': last_movement_date}
         )
-        losses_request.meta['date'] = last_movement_date
 
         # Starts parsing of revenues
-        revenues_request = scrapy.FormRequest(
+        revenues_request = scrapy_splash.SplashRequest(
             url=self.REVENUES_URL,
-            formdata={
+            callback=self.parse_movements,
+            endpoint='execute',
+            cache_args=['lua_source'],
+            dont_filter=True,
+            args={
+                'lua_source': self.movements_lua,
+                'moneymap_url': self.MONEYMAP_URL,
                 'meseanno': last_movement_date.strftime('%m%Y'),
                 'dopoAggiornamento': 'false',
                 'idBrand': ''
             },
-            callback=self.parse_movements
+            meta={'date': last_movement_date}
         )
         revenues_request.meta['date'] = last_movement_date
 
         return [losses_request, revenues_request]
 
     def parse_movements(self, response):
-        """ Parses a movement and saves it in DB if it doesn't already exists """
+        """ Parses a list of movements and saves them in DB if it doesn't already exists """
 
         # Gets description of all movements
         movements = response.xpath('//tr[contains(@class, "description")]')
@@ -91,7 +109,7 @@ class FinecoSpider(scrapy.Spider):
                     description = cell.xpath('.//b/text()').extract_first().strip()
                 elif i == 3:
                     category = cell.xpath('text()').extract_first().strip()
-                    sub_category = cell.xpath('.//i/text()').extract_first.strip()
+                    sub_category = cell.xpath('.//i/text()').extract_first().strip()
                 elif i == 5:
                     # If currency is unknown skips current movement
                     try:
@@ -118,14 +136,19 @@ class FinecoSpider(scrapy.Spider):
         next_month = response.meta['date'] + timedelta(weeks=4)
 
         # Creates request to get next month movements
-        request = scrapy.FormRequest.from_response(
-            response,
-            formdata={
-                'meseanno': next_month.strftime('%m%Y'),
+        request = scrapy_splash.SplashRequest(
+            response.url,
+            callback=self.parse_movements,
+            endpoint='execute',
+            cache_args=['lua_source'],
+            dont_filter=True,
+            args={
+                'lua_source': self.movements_lua,
+                'moneymap_url': self.MONEYMAP_URL,
+                'meseanno': response.meta['date'].strftime('%m%Y'),
                 'dopoAggiornamento': 'false',
                 'idBrand': ''
             },
-            callback=self.parse_movements
+            meta={'date': next_month}
         )
-        request.meta['date'] = next_month
-        return request
+        return [request]

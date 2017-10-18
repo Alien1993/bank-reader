@@ -2,11 +2,16 @@ version: "2"
 
 services:
     postgres:
-        extends: 
+        extends:
             file: ./containers/base.yml
             service: postgres
 
+    splash:
+        extends:
+            file: ./containers/base.yml
+            service: splash
+
     django:
-        extends: 
+        extends:
             file: ./containers/base.yml
             service: django

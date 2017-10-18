@@ -8,6 +8,11 @@ services:
             - POSTGRES_PASSWORD=123456
             - POSTGRES_DB=bank-reader
 
+    splash:
+        image: scrapinghub/splash:3.0
+        ports:
+            - "8050:8050"
+
     django:
         build:
             context: ../

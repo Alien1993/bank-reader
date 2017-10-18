@@ -25,20 +25,20 @@ def test_after_login_with_movements(mocker):
     # Gets requests created after login
     response = mocker.Mock()
     response.url = 'some url'
-    losses_requests, revenues_request = spider.after_login(response)
+    losses_request, revenues_request = spider.after_login(response)
 
     # Verifies losses requests is created as expected
-    assert FinecoSpider.LOSSES_URL in str(losses_requests)
-    assert 'meseanno=072016' in losses_requests.body.decode()
-    assert 'dopoAggiornamento=false' in losses_requests.body.decode()
-    assert 'idBrand=' in losses_requests.body.decode()
-    assert losses_requests.meta['date'] == date(2016, 7, 2)
+    assert FinecoSpider.LOSSES_URL in str(losses_request)
+    assert '072016' == losses_request.meta['splash']['args']['meseanno']
+    assert 'false' == losses_request.meta['splash']['args']['dopoAggiornamento']
+    assert '' == losses_request.meta['splash']['args']['idBrand']
+    assert losses_request.meta['date'] == date(2016, 7, 2)
 
     # Verifies revenues requests is created as expected
     assert FinecoSpider.REVENUES_URL in str(revenues_request)
-    assert 'meseanno=072016' in revenues_request.body.decode()
-    assert 'dopoAggiornamento=false' in revenues_request.body.decode()
-    assert 'idBrand=' in revenues_request.body.decode()
+    assert '072016' == revenues_request.meta['splash']['args']['meseanno']
+    assert 'false' == revenues_request.meta['splash']['args']['dopoAggiornamento']
+    assert '' == revenues_request.meta['splash']['args']['idBrand']
     assert revenues_request.meta['date'] == date(2016, 7, 2)
 
 
@@ -54,20 +54,20 @@ def test_after_login_without_movements(mocker):
     # Gets requests created after login
     response = mocker.Mock()
     response.url = 'some url'
-    losses_requests, revenues_request = spider.after_login(response)
+    losses_request, revenues_request = spider.after_login(response)
 
     # Verifies losses requests is created as expected
-    assert FinecoSpider.LOSSES_URL in str(losses_requests)
-    assert 'meseanno=062015' in losses_requests.body.decode('utf-8')
-    assert 'dopoAggiornamento=false' in losses_requests.body.decode('utf-8')
-    assert 'idBrand=' in losses_requests.body.decode('utf-8')
-    assert losses_requests.meta['date'] == date(2015, 6, 1)
+    assert FinecoSpider.LOSSES_URL in str(losses_request)
+    assert '062015' == losses_request.meta['splash']['args']['meseanno']
+    assert 'false' == losses_request.meta['splash']['args']['dopoAggiornamento']
+    assert '' == losses_request.meta['splash']['args']['idBrand']
+    assert losses_request.meta['date'] == date(2015, 6, 1)
 
     # Verifies revenues requests is created as expected
     assert FinecoSpider.REVENUES_URL in str(revenues_request)
-    assert 'meseanno=062015' in revenues_request.body.decode('utf-8')
-    assert 'dopoAggiornamento=false' in revenues_request.body.decode('utf-8')
-    assert 'idBrand=' in revenues_request.body.decode('utf-8')
+    assert '062015' == revenues_request.meta['splash']['args']['meseanno']
+    assert 'false' == revenues_request.meta['splash']['args']['dopoAggiornamento']
+    assert '' == revenues_request.meta['splash']['args']['idBrand']
     assert revenues_request.meta['date'] == date(2015, 6, 1)
 
 

@@ -2,6 +2,7 @@ FROM python:3.6.1
 
 ENV DJANGO_SETTINGS_MODULE bank-reader.settings.dev
 ENV DATABASE_URL postgres://devel:123456@postgres:5432/bank-reader
+ENV SPLASH_URL http://splash:8050/
 
 ENV UWSGI_HTTP 0.0.0.0:8000
 ENV UWSGI_PROCESSES 2
