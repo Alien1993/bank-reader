@@ -12,6 +12,7 @@ services:
         image: scrapinghub/splash:3.0
         ports:
             - "8050:8050"
+        restart: on-failure
 
     django:
         build:

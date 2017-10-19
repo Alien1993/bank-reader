@@ -7,9 +7,8 @@ services:
       service: postgres
     ports:
       - "5432:5432"
+
   splash:
     extends:
       file: base.yml
       service: splash
-    ports:
-      - "8050:8050"
