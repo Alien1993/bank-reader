@@ -19,3 +19,6 @@ class Movement(models.Model):
             return last_movement.date
         # If there's not Movement return the smallest date possible
         return datetime.date.min
+
+    def __str__(self):
+        return 'Movement {}, amount: {}'.format(self.date, self.amount)
