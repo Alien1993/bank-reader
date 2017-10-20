@@ -119,6 +119,10 @@ class FinecoSpider(scrapy.Spider):
                         logger.exception(msg)
                         break
 
+            # Losses are saved as negative values
+            if response.url == self.LOSSES_URL:
+                amount = -amount
+
             # Creates new Movement if it doesn't already exists
             Movement.objects.get_or_create(
                 date=movement_date,
