@@ -137,7 +137,13 @@ class FinecoSpider(scrapy.Spider):
                 response.meta['date'].month == today.month):
             return
 
-        next_month = response.meta['date'] + timedelta(weeks=4)
+        # A call might fail from time to time since Splash container crashes
+        # randomly and needs to restart, if that happens the page can't be
+        # scraped so the call must be repeated for that same month
+        if response.status == 200:
+            next_month = response.meta['date'] + timedelta(weeks=4)
+        else:
+            next_month = response.meta['date']
 
         # Creates request to get next month movements
         request = scrapy_splash.SplashRequest(
