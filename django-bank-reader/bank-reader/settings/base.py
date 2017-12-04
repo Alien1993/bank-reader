@@ -17,6 +17,7 @@ ALLOWED_HOSTS = env('DJANGO_ALLOWED_HOSTS', '').replace(' ', '').split(',')
 
 INSTALLED_APPS = [
     'scraper',
+    'frontend',
 
     'django.contrib.admin',
     'django.contrib.auth',

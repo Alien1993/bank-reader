@@ -6,6 +6,7 @@ apipatterns = [
 ]
 
 urlpatterns = [
+    url(r'', include('frontend.urls')),
     url(r'^api/', include(apipatterns, namespace='api')),
     url(r'^admin/', admin.site.urls),
 ]
