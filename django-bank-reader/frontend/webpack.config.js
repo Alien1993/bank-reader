@@ -23,7 +23,7 @@ if (production) {
 }
 
 module.exports = {
-  entry: './src/js/index.js',
+  entry: ['babel-polyfill', './src/js/index.js'],
   output: {
     filename: 'bundle.js',
     path: path.resolve(__dirname, 'static/js'),
