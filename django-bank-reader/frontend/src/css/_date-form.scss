@@ -2,21 +2,20 @@
     top: 2em;
     left: 2em;
     width: 10em;
-    height: 8em;
     padding: 1em;
     position: fixed;
     background-color: $light-green;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-
 }
 
 .form-div {
     display: flex;
+    margin-bottom: 10px;
     align-items: flex-start;
     justify-content: space-between;
 
+    .amount-input,
     .date-input {
         width: 6em;
         text-align: center;
@@ -25,7 +24,12 @@
         border-style: solid;
         border-color: $green;
     }
+
+    .amount-input {
+        width: 4em;
+    }
     
+    h2,
     h4 {
         align-self: center;
         margin: 0;

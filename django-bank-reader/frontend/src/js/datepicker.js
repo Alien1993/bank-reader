@@ -1,28 +1,13 @@
 const Pikaday = require('pikaday');
 const moment = require('moment');
 
-const DATE_FORMAT = 'DD-MM-YYYY';
+const DISPLAY_DATE_FORMAT = 'DD-MM-YYYY';
 
 let startDate = moment().add(-14, 'days').toDate();
 let endDate = moment().toDate();
 
-// let dateFromPicker;
-// let dateToPicker;
-
 let updateStartDate;
 let updateEndDate;
-
-// const updateStartDate = () => {
-//   dateFromPicker.setStartRange(startDate);
-//   dateToPicker.setStartRange(startDate);
-//   dateToPicker.setMinDate(startDate);
-// };
-
-// const updateEndDate = () => {
-//   dateFromPicker.setEndRange(endDate);
-//   dateFromPicker.setMaxDate(endDate);
-//   dateToPicker.setEndRange(endDate);
-// };
 
 function dateFromOnSelect() {
   startDate = this.getDate();
@@ -36,7 +21,7 @@ function dateToOnSelect() {
 
 const dateFromPicker = new Pikaday({
   field: document.getElementById('date-from-input'),
-  format: DATE_FORMAT,
+  format: DISPLAY_DATE_FORMAT,
   defaultDate: new Date(),
   firstDay: 1,
   showDaysInNextAndPreviousMonths: true,
@@ -45,7 +30,7 @@ const dateFromPicker = new Pikaday({
 
 const dateToPicker = new Pikaday({
   field: document.getElementById('date-to-input'),
-  format: DATE_FORMAT,
+  format: DISPLAY_DATE_FORMAT,
   defaultDate: new Date(),
   firstDay: 1,
   showDaysInNextAndPreviousMonths: true,
@@ -64,17 +49,14 @@ updateEndDate = () => {
   dateToPicker.setEndRange(endDate);
 };
 
-
 dateFromPicker.gotoToday();
 dateToPicker.gotoToday();
 
 document.getElementById('date-from-input').value =
-  moment(startDate).format(DATE_FORMAT);
+  moment(startDate).format(DISPLAY_DATE_FORMAT);
 
 document.getElementById('date-to-input').value =
-  moment(endDate).format(DATE_FORMAT);
+  moment(endDate).format(DISPLAY_DATE_FORMAT);
 
 updateStartDate();
 updateEndDate();
-
-export default (dateFromPicker);
