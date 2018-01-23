@@ -67,3 +67,6 @@ target/
 
 # npm
 node_modules/
+
+# Visual Studio Code
+*.code-workspace
