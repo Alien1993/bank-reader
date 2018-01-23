@@ -18,7 +18,7 @@ const fetch = () => {
     amount_to: amountTo.value,
   };
 
-  getMovements(params);
+  getMovements(params, console.log);
 };
 
 document.getElementById('fetch-button').onclick = fetch;
