@@ -4,3 +4,5 @@ require('../css/main.scss');
 require('./client.js');
 require('./datepicker.js');
 require('./form-controller.js');
+require('./processors.js');
+require('./bubble-chart-controller.js');

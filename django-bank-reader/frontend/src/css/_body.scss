@@ -2,4 +2,13 @@ body {
     background-color: black;
     color: $text-color;
     font-family: $global-font;
+    text-align: center;
+}
+
+#main-column {
+    width: 75%;
+    margin: 0px auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }

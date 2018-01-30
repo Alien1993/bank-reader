@@ -1,4 +1,5 @@
 import getMovements from './client';
+import { globalProcessor } from './processors';
 
 const moment = require('moment');
 
@@ -18,7 +19,7 @@ const fetch = () => {
     amount_to: amountTo.value,
   };
 
-  getMovements(params, console.log);
+  getMovements(params, globalProcessor);
 };
 
 document.getElementById('fetch-button').onclick = fetch;
