@@ -17,7 +17,7 @@ it('Verifies Bubble data is processed as expected', () => {
 
   expect(processedMovement.zIndex).toBe('-10');
   expect(processedMovement.data.length).toBe(1);
-  expect(processedMovement.data[0].y).toBe(1496440800000);
+  expect(processedMovement.data[0].y).toBe(1496448000000);
   expect(processedMovement.data[0].z).toBe(10);
   expect(processedMovement.data[0].name).toBe('Category 1');
   expect(processedMovement.data[0].color).toBe('#FF5722');
