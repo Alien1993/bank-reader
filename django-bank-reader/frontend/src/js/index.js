@@ -6,3 +6,4 @@ require('./datepicker.js');
 require('./form-controller.js');
 require('./processors.js');
 require('./bubble-chart-controller.js');
+require('./bar-chart-controller.js');
