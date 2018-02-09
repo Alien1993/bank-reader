@@ -2,7 +2,7 @@ django
 django-money
 django-getenv
 dj-database-url
-psycopg2
+psycopg2==2.7.4
 djangorestframework
 django-filter
 
