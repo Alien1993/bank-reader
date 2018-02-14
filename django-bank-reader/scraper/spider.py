@@ -133,8 +133,8 @@ class FinecoSpider(scrapy.Spider):
 
         # If last month parsed is current one returns since I might be dead by the night
         today = date.today()
-        if (response.meta['date'].year == today.year and
-                response.meta['date'].month == today.month):
+        if (response.meta['date'].year >= today.year and
+                response.meta['date'].month > today.month):
             return
 
         # A call might fail from time to time since Splash container crashes
