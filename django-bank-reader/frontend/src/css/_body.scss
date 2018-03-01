@@ -2,7 +2,6 @@ body {
     background-color: black;
     color: $text-color;
     font-family: $global-font;
-    text-align: center;
 }
 
 #main-column {
@@ -12,7 +11,7 @@ body {
     flex-direction: column;
     justify-content: space-between;
 
-    * {
+    > div {
         margin-bottom: 1em;
     }
 }
