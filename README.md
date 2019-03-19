@@ -1,7 +1,7 @@
 # Bank reader
 
-[![Build Status](https://travis-ci.org/Alien1993/bank-reader.svg?branch=master)](https://travis-ci.org/Alien1993/bank-reader)
-[![Coverage Status](https://coveralls.io/repos/github/Alien1993/bank-reader/badge.svg?branch=master)](https://coveralls.io/github/Alien1993/bank-reader?branch=master)
+[![Build Status](https://travis-ci.org/silvanocerza/bank-reader.svg?branch=master)](https://travis-ci.org/silvanocerza/bank-reader)
+[![Coverage Status](https://coveralls.io/repos/github/silvanocerza/bank-reader/badge.svg?branch=master)](https://coveralls.io/github/silvanocerza/bank-reader?branch=master)
 
 A scraper for my bank account.
 
