@@ -1,13 +1,13 @@
-import django_filters
+from django_filters import rest_framework as filters
 
 from scraper.models import Movement
 
 
-class MovementDateRangeFilter(django_filters.FilterSet):
-    date_from = django_filters.DateFilter(name='date', lookup_expr='gte')
-    date_to = django_filters.DateFilter(name='date', lookup_expr='lte')
-    amount_from = django_filters.NumberFilter(name='amount', lookup_expr='gte')
-    amount_to = django_filters.NumberFilter(name='amount', lookup_expr='lte')
+class MovementDateRangeFilter(filters.FilterSet):
+    date_from = filters.DateFilter(field_name='date', lookup_expr='gte')
+    date_to = filters.DateFilter(field_name='date', lookup_expr='lte')
+    amount_from = filters.NumberFilter(field_name='amount', lookup_expr='gte')
+    amount_to = filters.NumberFilter(field_name='amount', lookup_expr='lte')
 
     class Meta:
         model = Movement
