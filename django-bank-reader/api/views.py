@@ -8,8 +8,8 @@ from .filters import MovementDateRangeFilter
 
 
 class MovementViewSet(ModelViewSet):
-    queryset = Movement.objects.all().order_by('date')
+    queryset = Movement.objects.all().order_by("date")
     serializer_class = MovementSerializer
     filter_backends = (DjangoFilterBackend, SearchFilter)
     filter_class = MovementDateRangeFilter
-    search_fields = ('description', 'category', 'sub_category')
+    search_fields = ("description", "category", "sub_category")

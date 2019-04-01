@@ -8,6 +8,7 @@ from scraper import models
 
 class MovementFactory(factory.django.DjangoModelFactory):
     """ Creates Movement used for testing """
+
     class Meta:
         model = models.Movement
 
@@ -15,4 +16,4 @@ class MovementFactory(factory.django.DjangoModelFactory):
     description = "Lunch"
     category = "Food"
     sub_category = "Food"
-    amount = Money(15, 'EUR')
+    amount = Money(15, "EUR")

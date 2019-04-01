@@ -12,6 +12,7 @@ flake8 = "*"
 coverage = "*"
 ipdb = "*"
 factory-boy = "*"
+black = "*"
 
 [packages]
 dj-database-url = "*"
@@ -27,3 +28,6 @@ psycopg2 = "*"
 
 [requires]
 python_version = "3.7"
+
+[pipenv]
+allow_prereleases = true
