@@ -44,7 +44,7 @@ ROOT_URLCONF = "bank-reader.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [],
+        "DIRS": [os.path.join(BASE_DIR, "frontend/dist")],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -104,6 +104,7 @@ STATIC_HOST = env("DJANGO_STATIC_HOST", "")
 
 STATIC_URL = STATIC_HOST + "/static/"
 STATIC_ROOT = os.path.join(ASSETS_ROOT, "static")
+STATICFILES_DIRS = [os.path.join(BASE_DIR, "frontend/dist/static")]
 
 LOGGING = {
     "version": 1,
