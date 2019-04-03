@@ -71,4 +71,5 @@ node_modules/
 # Visual Studio Code
 *.code-workspace
 .vscode/*
-   
+
+!django-bank-reader/frontend/dist
