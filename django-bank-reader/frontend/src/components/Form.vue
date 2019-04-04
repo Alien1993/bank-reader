@@ -52,8 +52,8 @@ import axios from 'axios';
 export default class Form extends Vue {
 @Prop({ default: 'input' }) public readonly inputClass!: string;
 @Prop(String) private title!: string;
-@Prop({ default: moment().subtract(2, 'weeks').toDate() }) private fromDate!: Date;
-@Prop({ default: moment().toDate() }) private toDate!: Date;
+@Prop({ default: () => moment().subtract(2, 'weeks').toDate() }) private fromDate!: Date;
+@Prop({ default: () => moment().toDate() }) private toDate!: Date;
 
   private getMovements() {
     const DATE_FORMAT = 'YYYY-MM-DD';

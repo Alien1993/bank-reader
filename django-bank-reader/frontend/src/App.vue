@@ -16,7 +16,7 @@ import Form from './components/Form.vue';
   },
 })
 export default class App extends Vue {
-@Prop({ default: [] }) private movements!: object[];
+@Prop({ default: () => [] }) private movements!: object[];
 
   private setMovements(movements: object[]) {
     this.movements = movements;
