@@ -1,11 +1,13 @@
 <template>
   <div id="app">
-    <Form/>
+    <Form
+      v-on:success="setMovements($event)"
+    />
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
+import { Component, Prop, Vue } from 'vue-property-decorator';
 import Form from './components/Form.vue';
 
 @Component({
@@ -13,7 +15,13 @@ import Form from './components/Form.vue';
     Form,
   },
 })
-export default class App extends Vue {}
+export default class App extends Vue {
+@Prop({ default: [] }) private movements!: object[];
+
+  private setMovements(movements: object[]) {
+    this.movements = movements;
+  }
+}
 </script>
 
 <style lang="scss">
