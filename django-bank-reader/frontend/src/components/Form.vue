@@ -8,8 +8,9 @@
         <label class="label">Date from</label>
         <div class="control">
           <datepicker
+            :monday-first="true"
             :input-class="inputClass"
-            :value="fromDate"
+            v-model="fromDate"
           />
         </div>
       </div>
@@ -19,8 +20,9 @@
         <label class="label">Date to</label>
         <div class="control">
           <datepicker
+            :monday-first="true"
             :input-class="inputClass"
-            :value="toDate"
+            v-model="toDate"
           />
         </div>
       </div>
@@ -40,6 +42,7 @@
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import Datepicker from 'vuejs-datepicker';
 import moment from 'moment';
+import axios from 'axios';
 
 @Component({
   components: {
@@ -49,11 +52,23 @@ import moment from 'moment';
 export default class Form extends Vue {
 @Prop({ default: 'input' }) public readonly inputClass!: string;
 @Prop(String) private title!: string;
-@Prop({ default: moment().subtract(2, 'weeks').valueOf() }) private fromDate!: moment.Moment;
-@Prop({ default: moment().valueOf() }) private toDate!: moment.Moment;
+@Prop({ default: moment().subtract(2, 'weeks').toDate() }) private fromDate!: Date;
+@Prop({ default: moment().toDate() }) private toDate!: Date;
 
   private getMovements() {
-    // TODO: Here call API
+    const DATE_FORMAT = 'YYYY-MM-DD';
+    const params = {
+      date_from: moment(this.fromDate).format(DATE_FORMAT),
+      date_to: moment(this.toDate).format(DATE_FORMAT),
+    };
+    const vm = this;
+    axios.get('./api/movements', {params})
+    .then((response) => {
+      vm.$emit('success', response.data);
+    })
+    .catch((error) => {
+      vm.$emit('error', error);
+    });
   }
 }
 </script>
@@ -62,6 +77,5 @@ export default class Form extends Vue {
 <style lang="scss" scoped>
 .panel {
   position: fixed;
-  width: 20%;
 }
 </style>
