@@ -18,6 +18,7 @@ services:
         build:
             context: ../
             dockerfile: containers/Dockerfile
+        env_file: ../.env
         volumes:
             - ..:/app
         ports:
